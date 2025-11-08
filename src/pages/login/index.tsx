@@ -26,17 +26,6 @@ const Login: React.FC = () => {
       setToken("admin123456");
       getMenus([
         {
-          path: "/expert",
-          title: "会议管理",
-          redirect: "",
-          modulePath: "expert",
-          icon: "ContactsOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-        },
-        {
           path: "/configuration",
           title: "配置",
           redirect: "",
@@ -168,28 +157,6 @@ const Login: React.FC = () => {
           redirect: "",
           modulePath: "customer",
           icon: "TeamOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-        },
-        {
-          path: "/importAndExport",
-          title: "导入导出",
-          redirect: "",
-          icon: "ContactsOutlined",
-          modulePath: "importAndExport",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-        },
-        {
-          path: "/courseware",
-          title: "课件管理",
-          redirect: "",
-          modulePath: "courseware",
-          icon: "ApartmentOutlined",
           meta: {
             auth: true,
             menu: true,
