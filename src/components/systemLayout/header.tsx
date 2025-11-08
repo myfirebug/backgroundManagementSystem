@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Dropdown, Image, Space, type MenuProps } from "antd";
 import { useCollapsedStore, useMenuStore, useTokensStore } from "@store/index";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getParentsById } from "@src/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 interface SystemHeaderProps {}
@@ -19,6 +19,7 @@ const SystemHeader: React.FC<SystemHeaderProps> = () => {
   const { collapsed, change } = useCollapsedStore();
   const { clearToken } = useTokensStore();
   const navigate = useNavigate();
+  const [fullscreen, setFullscreen] = useState(false);
 
   const { menus } = useMenuStore();
   useEffect(() => {
@@ -44,10 +45,65 @@ const SystemHeader: React.FC<SystemHeaderProps> = () => {
       icon: <LoginOutlined />,
     },
   ];
+  // 打开全屏
+  const openFullscreen = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+      setFullscreen(true);
+    } else if (document.documentElement.mozRequestFullScreen) {
+      /* Firefox */
+      document.documentElement.mozRequestFullScreen();
+      setFullscreen(true);
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      /* Chrome, Safari & Opera */
+      document.documentElement.webkitRequestFullscreen();
+      setFullscreen(true);
+    } else if (document.documentElement.msRequestFullscreen) {
+      /* IE/Edge */
+      document.documentElement.msRequestFullscreen();
+      setFullscreen(true);
+    }
+  };
+  // 退出全屏
+  const closeFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      setFullscreen(false);
+    } else if (document.mozCancelFullScreen) {
+      /* Firefox */
+      document.mozCancelFullScreen();
+      setFullscreen(false);
+    } else if (document.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+      setFullscreen(false);
+    } else if (document.msExitFullscreen) {
+      /* IE/Edge */
+      document.msExitFullscreen();
+      setFullscreen(false);
+    }
+  };
+  const fullscreenchangeHandler = useCallback(() => {
+    if (document.fullscreenElement) {
+      setFullscreen(true);
+    } else {
+      setFullscreen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("fullscreenchange", fullscreenchangeHandler);
+    return () => {
+      document.removeEventListener("fullscreenchange", fullscreenchangeHandler);
+    };
+  }, []);
   return (
     <div className="flex flex-1 h-12 pl-3 pr-3 border-b border-gray-200 bg-white">
       <div className="flex-1 flex items-center">
-        <div className="pr-4 cursor-pointer" onClick={change}>
+        <div
+          className="pr-4 cursor-pointer hover:text-sky-800"
+          onClick={change}
+        >
           {collapsed ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
         </div>
         {breadcrumb && breadcrumb.length ? (
@@ -63,9 +119,13 @@ const SystemHeader: React.FC<SystemHeaderProps> = () => {
         ) : null}
       </div>
       <div className="flex items-center">
-        <div className="pr-2 cursor-pointer">
-          <FullscreenOutlined />
-          <FullscreenExitOutlined />
+        <div
+          className="pr-2 cursor-pointer hover:text-sky-800"
+          onClick={() => {
+            fullscreen ? closeFullscreen() : openFullscreen();
+          }}
+        >
+          {fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </div>
         <Image
           width={30}
