@@ -12,7 +12,8 @@ import {
   SettingOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { getGroupById } from "@src/utils";
 type MenuItem = Required<MenuProps>["items"][number];
 interface SystemSidebarProps {}
 
@@ -61,8 +62,22 @@ const SystemSidebar: React.FC<SystemSidebarProps> = () => {
 
   // 菜单展开
   const onOpenChange = (openKeys: string[]) => {
-    setOpenKeys(openKeys.slice(openKeys.length - 1));
+    setOpenKeys(openKeys);
   };
+
+  const currentPathname = useMemo(() => {
+    const arr = pathname.split("/");
+    return `/${arr[1]}`;
+  }, [pathname]);
+
+  const currentMenus = useMemo(() => {
+    const result: IRoute[] = getGroupById(
+      menus,
+      currentPathname,
+      "path"
+    )?.children;
+    return result || [];
+  }, [menus, currentPathname]);
 
   useEffect(() => {
     if (pathname !== "/404") {
@@ -78,29 +93,33 @@ const SystemSidebar: React.FC<SystemSidebarProps> = () => {
     }
   }, [pathname]);
   return (
-    <animated.div style={props}>
-      <div className=" bg-white flex flex-col h-screen relative border-r border-gray-200">
-        <div
-          onClick={change}
-          className="absolute z-10 w-6 h-6 rounded-2xl align-middle bg-white -right-2 top-2 flex items-center justify-center text-gray-400 shadow font-bold cursor-pointer"
-          style={{ fontSize: "10px" }}
-        >
-          {!collapsed ? <LeftOutlined /> : <RightOutlined />}
-        </div>
-        <div className="overflow-hidden overflow-y-auto">
-          <Menu
-            theme="light"
-            selectedKeys={selectedKeys}
-            openKeys={openKeys}
-            mode="inline"
-            inlineCollapsed={collapsed}
-            items={diffMenus(menus)}
-            onSelect={onSelect}
-            onOpenChange={onOpenChange}
-          />
-        </div>
-      </div>
-    </animated.div>
+    <>
+      {currentMenus.length ? (
+        <animated.div style={props}>
+          <div className=" bg-white flex flex-col h-screen relative border-r border-gray-200">
+            <div
+              onClick={change}
+              className="absolute z-10 w-6 h-6 rounded-2xl align-middle bg-white -right-2 top-2 flex items-center justify-center text-gray-400 shadow font-bold cursor-pointer"
+              style={{ fontSize: "10px" }}
+            >
+              {!collapsed ? <LeftOutlined /> : <RightOutlined />}
+            </div>
+            <div className="overflow-hidden overflow-y-auto">
+              <Menu
+                theme="light"
+                selectedKeys={selectedKeys}
+                openKeys={openKeys}
+                mode="inline"
+                inlineCollapsed={collapsed}
+                items={diffMenus(currentMenus)}
+                onSelect={onSelect}
+                onOpenChange={onOpenChange}
+              />
+            </div>
+          </div>
+        </animated.div>
+      ) : null}
+    </>
   );
 };
 

@@ -26,124 +26,125 @@ const Login: React.FC = () => {
       setToken("admin123456");
       getMenus([
         {
-          path: "/configuration",
-          title: "配置",
-          redirect: "",
-          modulePath: "configuration",
-          icon: "SettingOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-          children: [
-            {
-              path: "/configuration/dispatchBox",
-              title: "发件箱",
-              redirect: "",
-              modulePath: "configuration/dispatchBox",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/template",
-              title: "模版",
-              redirect: "",
-              modulePath: "configuration/template",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/notice",
-              title: "邮件/短信/下载记录",
-              redirect: "",
-              modulePath: "configuration/notice",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/page",
-              title: "页面显示",
-              redirect: "",
-              modulePath: "configuration/page",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/courseware",
-              title: "课件",
-              redirect: "",
-              modulePath: "configuration/courseware",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-          ],
-        },
-        {
-          path: "/schedule",
-          title: "日程",
+          path: "/meeting",
+          title: "会议管理",
           redirect: "",
           modulePath: "",
-          icon: "BuildOutlined",
+          icon: "ContactsOutlined",
           meta: {
             auth: true,
             menu: true,
           },
           children: [
             {
-              path: "/schedule/topicTypes",
-              title: "讲题类型",
+              path: "/meeting",
+              title: "会议列表",
               redirect: "",
-              modulePath: "schedule/topicTypes",
+              modulePath: "meeting",
+              icon: "ApartmentOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
             {
-              path: "/schedule/session",
-              title: "session配置",
+              path: "/meeting/config",
+              title: "配置",
               redirect: "",
-              modulePath: "schedule/session",
+              modulePath: "",
+              icon: "SettingOutlined",
+              meta: {
+                auth: true,
+                menu: true,
+              },
+              children: [
+                {
+                  path: "/meeting/config/outbox",
+                  title: "发件箱",
+                  redirect: "",
+                  modulePath: "meetingConfigOutbox",
+                  icon: "TeamOutlined",
+                  meta: {
+                    auth: true,
+                    menu: true,
+                  },
+                },
+                {
+                  path: "/meeting/config/template",
+                  title: "模版",
+                  redirect: "",
+                  modulePath: "meetingConfigTemplate",
+                  icon: "ContactsOutlined",
+                  meta: {
+                    auth: true,
+                    menu: true,
+                  },
+                },
+                {
+                  path: "/meeting/config/schedule",
+                  title: "日程",
+                  redirect: "",
+                  modulePath: "",
+                  icon: "ApartmentOutlined",
+                  meta: {
+                    auth: true,
+                    menu: true,
+                  },
+                  children: [
+                    {
+                      path: "/meeting/config/schedule/topicTypes",
+                      title: "讲题类型",
+                      redirect: "",
+                      modulePath: "meetingConfigScheduleTopicTypes",
+                      icon: "TeamOutlined",
+                      meta: {
+                        auth: true,
+                        menu: true,
+                      },
+                    },
+                    {
+                      path: "/meeting/config/schedule/sessionTypes",
+                      title: "session类型",
+                      redirect: "",
+                      modulePath: "meetingConfigScheduleSessionTypes",
+                      icon: "BuildOutlined",
+                      meta: {
+                        auth: true,
+                        menu: true,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              path: "/meeting/courseware",
+              title: "课件管理",
+              redirect: "",
+              modulePath: "meetingCourseware",
+              icon: "ApartmentOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
             {
-              path: "/schedule/sessionLabel",
-              title: "session标签",
+              path: "/meeting/importExport",
+              title: "导入/导出",
               redirect: "",
-              modulePath: "schedule/sessionLabel",
+              modulePath: "meetingImportExport",
+              icon: "TeamOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
             {
-              path: "/schedule/topicLabel",
-              title: "讲题标签",
+              path: "/meeting/address",
+              title: "地址",
               redirect: "",
-              modulePath: "schedule/topicLabel",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/schedule/topic",
-              title: "讲题",
-              redirect: "",
-              modulePath: "schedule/topic",
+              modulePath: "meetingAddress",
+              icon: "BuildOutlined",
               meta: {
                 auth: true,
                 menu: true,
@@ -156,7 +157,18 @@ const Login: React.FC = () => {
           title: "客户管理",
           redirect: "",
           modulePath: "customer",
-          icon: "TeamOutlined",
+          icon: "SettingOutlined",
+          meta: {
+            auth: true,
+            menu: true,
+          },
+        },
+        {
+          path: "/expertDatabase",
+          title: "专家库",
+          redirect: "",
+          modulePath: "expertDatabase",
+          icon: "BuildOutlined",
           meta: {
             auth: true,
             menu: true,

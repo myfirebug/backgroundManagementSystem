@@ -28,7 +28,7 @@ const SystemLayout: React.FC<SystemLayoutProps> = ({ children }) => {
           <div className="flex-1 flex">
             <SystemSidebar />
             <div className="flex-1 flex flex-col">
-              {breadcrumb && breadcrumb.length ? (
+              {breadcrumb && breadcrumb.length > 1 ? (
                 <Breadcrumb
                   className="p-2 pl-4"
                   items={breadcrumb.map((item: any) => ({
