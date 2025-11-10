@@ -1,87 +1,86 @@
-import { DownOutlined } from "@ant-design/icons";
-import type { ProColumns } from "@ant-design/pro-components";
+import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
+import PopConfirm from "@src/components/popConfirm";
 import { Button } from "antd";
-
-const valueEnum = {
-  0: "close",
-  1: "running",
-  2: "online",
-  3: "error",
-};
+import { useRef } from "react";
 
 export type TableListItem = {
-  key: number;
+  id: number;
   name: string;
-  containers: number;
-  creator: string;
-  status: string;
-  createdAt: number;
-  memo: string;
+  createdAt: string;
 };
 const tableListDataSource: TableListItem[] = [];
 
-const creators = ["付小小", "曲丽丽", "林东东", "陈帅帅", "兼某某"];
-
 for (let i = 0; i < 5; i += 1) {
   tableListDataSource.push({
-    key: i,
+    id: i,
     name: "AppName",
-    containers: Math.floor(Math.random() * 20),
-    creator: creators[Math.floor(Math.random() * creators.length)],
-    status: valueEnum[((Math.floor(Math.random() * 10) % 4) + "") as "0"],
-    createdAt: Date.now() - Math.floor(Math.random() * 100000),
-    memo:
-      i % 2 === 1
-        ? "很长很长很长很长很长很长很长的文字要展示但是要留下尾巴"
-        : "简短备注文案",
+    createdAt: "2025-04-01至2025-05-31",
   });
 }
 
-const columns: ProColumns<TableListItem>[] = [
-  {
-    title: "应用名称",
-    width: 80,
-    dataIndex: "name",
-    render: (_) => <a>{_}</a>,
-  },
-  {
-    title: "容器数量",
-    dataIndex: "containers",
-    align: "right",
-    sorter: (a, b) => a.containers - b.containers,
-  },
-  {
-    title: "状态",
-    width: 80,
-    dataIndex: "status",
-    initialValue: "all",
-    valueEnum: {
-      all: { text: "全部", status: "Default" },
-      close: { text: "关闭", status: "Default" },
-      running: { text: "运行中", status: "Processing" },
-      online: { text: "已上线", status: "Success" },
-      error: { text: "异常", status: "Error" },
-    },
-  },
-  {
-    title: "创建时间",
-    tooltip: "这是一段描述",
-    width: 140,
-    key: "since",
-    search: false,
-    dataIndex: "createdAt",
-    valueType: "date",
-    sorter: (a, b) => a.createdAt - b.createdAt,
-  },
-];
-
 export default () => {
+  const actionRef = useRef<ActionType>(null);
+  const columns: ProColumns<TableListItem>[] = [
+    {
+      title: "会议名称",
+      dataIndex: "name",
+      render: (_) => <a>{_}</a>,
+    },
+    {
+      title: "会议时间",
+      width: 240,
+      dataIndex: "createdAt",
+      search: false,
+    },
+    {
+      title: "操作",
+      valueType: "option",
+      key: "option",
+      width: 260,
+      render: (_, record) => [
+        <span
+          className=" text-blue-600 cursor-pointer hover:text-blue-500"
+          key="address"
+        >
+          地址
+        </span>,
+        <span
+          className=" text-blue-600 cursor-pointer hover:text-blue-500"
+          key="importExort"
+        >
+          导入/导出
+        </span>,
+        <span
+          className=" text-blue-600 cursor-pointer hover:text-blue-500"
+          key="config"
+        >
+          配置
+        </span>,
+        <span
+          className=" text-blue-600 cursor-pointer hover:text-blue-500"
+          key="courseware"
+        >
+          课件管理
+        </span>,
+        <PopConfirm
+          text="删除"
+          requestName="reportDelete"
+          key="delete"
+          params={{
+            ids: [record.id],
+          }}
+          reload={actionRef.current?.reloadAndRest}
+        ></PopConfirm>,
+      ],
+    },
+  ];
   return (
     <div className=" p-4 custom-content">
       <ProTable<TableListItem>
         columns={columns}
         bordered
+        actionRef={actionRef}
         request={(params, sorter, filter) => {
           // 表单搜索项会从 params 传入，传递给后端接口。
           console.log(params, sorter, filter);
@@ -90,7 +89,7 @@ export default () => {
             success: true,
           });
         }}
-        rowKey="key"
+        rowKey="id"
         pagination={{
           showQuickJumper: true,
         }}
@@ -101,13 +100,8 @@ export default () => {
         dateFormatter="string"
         headerTitle="会议管理列表"
         toolBarRender={() => [
-          <Button key="show">查看日志</Button>,
-          <Button key="out">
-            导出数据
-            <DownOutlined />
-          </Button>,
           <Button type="primary" key="primary">
-            创建应用
+            创建会议
           </Button>,
         ]}
       />
