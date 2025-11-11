@@ -3,83 +3,77 @@ import { ProTable } from "@ant-design/pro-components";
 import PopConfirm from "@src/components/popConfirm";
 import { Button } from "antd";
 import { useRef } from "react";
+import AddOrEdit from "./components/addOrEdit";
 
-export type TableListItem = {
-  id: number;
+interface DataType {
+  key: number;
   name: string;
-  createdAt: string;
-};
-const tableListDataSource: TableListItem[] = [];
-
-for (let i = 0; i < 5; i += 1) {
-  tableListDataSource.push({
-    id: i,
-    name: "AppName",
-    createdAt: "2025-04-01至2025-05-31",
-  });
+  sort: number;
+  status: string;
+  createTime: string;
 }
+
+export type TableListItem = DataType;
 
 export default () => {
   const actionRef = useRef<ActionType>(null);
+  const tableListDataSource: TableListItem[] = [
+    {
+      key: 1,
+      name: "超级管理员",
+      sort: 1,
+      status: "正常",
+      createTime: "202201-12",
+    },
+  ];
+
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: "会议名称",
+      title: "角色名",
       dataIndex: "name",
-      render: (_) => <a>{_}</a>,
+      key: "name",
     },
     {
-      title: "会议时间",
-      width: 240,
-      dataIndex: "createdAt",
+      title: "排序",
+      dataIndex: "sort",
+      key: "sort",
+      search: false,
+    },
+    {
+      title: "状态",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "创建时间",
+      dataIndex: "createTime",
+      key: "createTime",
       search: false,
     },
     {
       title: "操作",
       valueType: "option",
       key: "option",
-      width: 260,
+      width: 120,
       render: (_, record) => [
-        <span
-          className=" text-blue-600 cursor-pointer hover:text-blue-500"
-          key="address"
-        >
-          地址
-        </span>,
-        <span
-          className=" text-blue-600 cursor-pointer hover:text-blue-500"
-          key="importExort"
-        >
-          导入/导出
-        </span>,
-        <span
-          className=" text-blue-600 cursor-pointer hover:text-blue-500"
-          key="config"
-        >
-          配置
-        </span>,
-        <span
-          className=" text-blue-600 cursor-pointer hover:text-blue-500"
-          key="courseware"
-        >
-          课件管理
-        </span>,
+        <AddOrEdit isButton={false} title="修改" data={record} />,
         <PopConfirm
           text="删除"
           requestName="reportDelete"
           key="delete"
           params={{
-            ids: [record.id],
+            ids: [record.key],
           }}
           reload={actionRef.current?.reloadAndRest}
         ></PopConfirm>,
       ],
     },
   ];
+
   return (
     <div className=" p-4 custom-content">
       <ProTable<TableListItem>
         columns={columns}
-        bordered
         actionRef={actionRef}
         request={(params, sorter, filter) => {
           // 表单搜索项会从 params 传入，传递给后端接口。
@@ -89,7 +83,7 @@ export default () => {
             success: true,
           });
         }}
-        rowKey="id"
+        rowKey="key"
         pagination={{
           showQuickJumper: true,
         }}
@@ -97,12 +91,8 @@ export default () => {
           labelWidth: "auto",
         }}
         dateFormatter="string"
-        headerTitle="会议管理列表"
-        toolBarRender={() => [
-          <Button type="primary" key="primary">
-            创建会议
-          </Button>,
-        ]}
+        headerTitle="角色管理"
+        toolBarRender={() => [<AddOrEdit isButton title="新增" />]}
       />
     </div>
   );

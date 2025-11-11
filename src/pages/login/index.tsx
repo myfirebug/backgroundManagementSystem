@@ -37,163 +37,50 @@ const Login: React.FC = () => {
           },
         },
         {
-          path: "/configuration",
-          title: "配置",
-          redirect: "",
-          modulePath: "configuration",
-          icon: "SettingOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-          children: [
-            {
-              path: "/configuration/dispatchBox",
-              title: "发件箱",
-              redirect: "",
-              modulePath: "configuration/dispatchBox",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/template",
-              title: "模版",
-              redirect: "",
-              modulePath: "configuration/template",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/notice",
-              title: "邮件/短信/下载记录",
-              redirect: "",
-              modulePath: "configuration/notice",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/page",
-              title: "页面显示",
-              redirect: "",
-              modulePath: "configuration/page",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/configuration/courseware",
-              title: "课件",
-              redirect: "",
-              modulePath: "configuration/courseware",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-          ],
-        },
-        {
-          path: "/schedule",
-          title: "日程",
+          path: "/system",
+          title: "系统管理",
           redirect: "",
           modulePath: "",
-          icon: "BuildOutlined",
+          icon: "ContactsOutlined",
           meta: {
             auth: true,
             menu: true,
           },
           children: [
             {
-              path: "/schedule/topicTypes",
-              title: "讲题类型",
+              path: "/system/menu",
+              title: "菜单管理",
               redirect: "",
-              modulePath: "schedule/topicTypes",
+              modulePath: "systemMenu",
+              icon: "ContactsOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
             {
-              path: "/schedule/session",
-              title: "session配置",
+              path: "/system/user",
+              title: "用户管理",
               redirect: "",
-              modulePath: "schedule/session",
+              modulePath: "systemUser",
+              icon: "ContactsOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
             {
-              path: "/schedule/sessionLabel",
-              title: "session标签",
+              path: "/system/role",
+              title: "角色管理",
               redirect: "",
-              modulePath: "schedule/sessionLabel",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/schedule/topicLabel",
-              title: "讲题标签",
-              redirect: "",
-              modulePath: "schedule/topicLabel",
-              meta: {
-                auth: true,
-                menu: true,
-              },
-            },
-            {
-              path: "/schedule/topic",
-              title: "讲题",
-              redirect: "",
-              modulePath: "schedule/topic",
+              modulePath: "systemRole",
+              icon: "ContactsOutlined",
               meta: {
                 auth: true,
                 menu: true,
               },
             },
           ],
-        },
-        {
-          path: "/customer",
-          title: "客户管理",
-          redirect: "",
-          modulePath: "customer",
-          icon: "TeamOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-        },
-        {
-          path: "/importAndExport",
-          title: "导入导出",
-          redirect: "",
-          icon: "ContactsOutlined",
-          modulePath: "importAndExport",
-          meta: {
-            auth: true,
-            menu: true,
-          },
-        },
-        {
-          path: "/courseware",
-          title: "课件管理",
-          redirect: "",
-          modulePath: "courseware",
-          icon: "ApartmentOutlined",
-          meta: {
-            auth: true,
-            menu: true,
-          },
         },
       ]);
 

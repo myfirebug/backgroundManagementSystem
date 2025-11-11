@@ -27,18 +27,22 @@ const diffMenus = (menus: IRoute[]) => {
   const arr: MenuItem[] = [];
   menus.map((item: IRoute) => {
     if (item?.children?.length) {
-      arr.push({
-        key: item.path as string,
-        label: item.title,
-        icon: item.icon && icon?.[item.icon] ? icon?.[item.icon] : null,
-        children: diffMenus(item?.children),
-      });
+      if (item.meta.menu) {
+        arr.push({
+          key: item.path as string,
+          label: item.title,
+          icon: item.icon && icon?.[item.icon] ? icon?.[item.icon] : null,
+          children: diffMenus(item?.children),
+        });
+      }
     } else {
-      arr.push({
-        key: item.path as string,
-        label: item.title,
-        icon: item.icon && icon?.[item.icon] ? icon?.[item.icon] : null,
-      });
+      if (item.meta.menu) {
+        arr.push({
+          key: item.path as string,
+          label: item.title,
+          icon: item.icon && icon?.[item.icon] ? icon?.[item.icon] : null,
+        });
+      }
     }
   });
   return arr;
